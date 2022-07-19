@@ -1,21 +1,14 @@
-# Package Helm ECR Action
+# Package Helm GHCR Action
 
-Package a helm chart and deploy to an AWS ECR repository using OCI
-<!-- ## Inputs
-
-| Input | Type | Description | Default | Required
-| ------ | ------ | ------ | ------ | ------
-| install_local_cluster | Boolean (String) | Install a local K3d Cluster | true | Yes -->
-
+Package a helm chart and deploy to an GHCR repository using OCI
 ## Full Example usage
 
 ```yaml
-- name: Package and Push a Helm Chart to AWS
-  uses: explorium-ai/package-helm-ecr-action@main
+- name: Package and Push a Helm Chart to GHCR
+  uses: explorium-ai/package-helm-ghcr-action@main
   with:
-    aws-access-key-id: fadsfads********
-    aws-secret-access-key: fadsfads********
-    aws-region: eu-west-1
-    ecr-repo-name: mychart
+    gh-token: fadsfads********
+    gh-repo-owner: mycompany
+    gh-repo-name: myservice
     chart-path: ./charts/mychart
 ```
