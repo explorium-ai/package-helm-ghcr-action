@@ -1,0 +1,51 @@
+name: Package Helm GHCR
+description: Package a helm chart and deploy to a Github Container Registry repository using OCI
+branding:
+  icon: hard-drive
+  color: blue
+inputs:
+  gh-token:
+      description: Github token to authenticate to Repo
+      default: eu-west-1
+      required: false
+  gh-repo-owner:
+      description: Github Repo Owner to deploy to
+      required: false      
+  gh-repo-name:
+      description: Github Repo name to deploy to
+      required: false
+  chart-path:
+    description: the directory path to the specified chart
+    required: true
+runs:
+  using: "composite"
+ 
+  steps:
+    - name: install helm
+      uses: Azure/setup-helm@v1
+
+    - name: login to ghcr using helm
+      shell: bash    
+      run: |
+        echo ${{ inputs.gh-token }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ inputs.gh-repo-owner }} --password-stdin
+      env:
+        HELM_EXPERIMENTAL_OCI: "1"
+        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}/${{ inputs.gh-repo-name }}
+
+    - name: Install PyBump
+      run: |
+        python3 -m pip install pybump
+      shell: bash
+    - name: Helm Chart
+      env:
+        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}/${{ inputs.gh-repo-name }}
+        HELM_EXPERIMENTAL_OCI: "1"
+      run : |
+        version=$(pybump get --file ${{ inputs.chart-path }}/Chart.yaml)
+        helm package \
+        ${{ inputs.chart-path }} \
+        --app-version $version \
+        --version $version
+        echo pushing $(basename ${{ inputs.chart-path }})-$version.tgz to oci://$GCR_IMAGE
+        helm push $(basename ${{ inputs.chart-path }})-$version.tgz oci://$GCR_IMAGE
+      shell: bash
