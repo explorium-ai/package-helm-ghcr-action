@@ -11,9 +11,6 @@ inputs:
   gh-repo-owner:
       description: Github Repo Owner to deploy to
       required: false      
-  gh-repo-name:
-      description: Github Repo name to deploy to
-      required: false
   chart-path:
     description: the directory path to the specified chart
     required: true
@@ -30,7 +27,7 @@ runs:
         echo ${{ inputs.gh-token }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ inputs.gh-repo-owner }} --password-stdin
       env:
         HELM_EXPERIMENTAL_OCI: "1"
-        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}/${{ inputs.gh-repo-name }}
+        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}
 
     - name: Install PyBump
       run: |
