@@ -33,6 +33,7 @@ runs:
       run: |
         python3 -m pip install pybump
       shell: bash
+
     - name: Helm Chart
       env:
         GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}
@@ -43,6 +44,6 @@ runs:
         ${{ inputs.chart-path }} \
         --app-version $version \
         --version $version
-        echo pushing $(basename ${{ inputs.chart-path }})-$version.tgz to oci://$GCR_IMAGE
-        helm push $(basename ${{ inputs.chart-path }})-$version.tgz oci://$GCR_IMAGE
+        echo pushing $(basename ${{ inputs.chart-path }})-$version.tgz to oci://$GCR_IMAGE/$(basename ${{ inputs.chart-path }}):$version
+        helm push $(basename ${{ inputs.chart-path }})-$version.tgz oci://$GCR_IMAGE/$(basename ${{ inputs.chart-path }}):$version
       shell: bash
