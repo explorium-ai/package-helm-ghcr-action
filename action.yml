@@ -38,7 +38,7 @@ runs:
       shell: bash
     - name: Helm Chart
       env:
-        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}/${{ inputs.gh-repo-name }}
+        GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}
         HELM_EXPERIMENTAL_OCI: "1"
       run : |
         version=$(pybump get --file ${{ inputs.chart-path }}/Chart.yaml)
