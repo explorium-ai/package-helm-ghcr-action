@@ -39,6 +39,7 @@ runs:
         GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}
         HELM_EXPERIMENTAL_OCI: "1"
       run : |
+        echo ${{ inputs.gh-token }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ inputs.gh-repo-owner }} --password-stdin
         version=$(pybump get --file ${{ inputs.chart-path }}/Chart.yaml)
         helm package \
         ${{ inputs.chart-path }} \
