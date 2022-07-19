@@ -9,6 +9,5 @@ Package a helm chart and deploy to an GHCR repository using OCI
   with:
     gh-token: fadsfads********
     gh-repo-owner: mycompany
-    gh-repo-name: myservice
     chart-path: ./charts/mychart
 ```
