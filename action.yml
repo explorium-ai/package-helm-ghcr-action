@@ -45,6 +45,7 @@ runs:
         --app-version $version \
         --version $version
         ls -lah
+        echo $GCR_IMAGE
         echo pushing chart to oci://$GCR_IMAGE
         ls *.tgz | xargs -i helm push {} oci://$GCR_IMAGE
       shell: bash
