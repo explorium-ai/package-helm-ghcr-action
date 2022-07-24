@@ -6,8 +6,7 @@ branding:
 inputs:
   gh-token:
     description: Github token to authenticate to Repo
-    default: "${{ secrets.GITHUB_TOKEN }}"
-    required: false
+    required: true
   gh-repo-owner:
     description: Github Repo Owner to deploy to
     default: "${{ github.repository_owner }}"
