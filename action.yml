@@ -5,11 +5,12 @@ branding:
   color: blue
 inputs:
   gh-token:
-      description: Github token to authenticate to Repo
-      required: true
+    description: Github token to authenticate to Repo
+    required: true
   gh-repo-owner:
-      description: Github Repo Owner to deploy to
-      required: false      
+    description: Github Repo Owner to deploy to
+    default: "${{ github.repository_owner }}"
+    required: false      
   chart-path:
     description: the directory path to the specified chart
     default: "."
