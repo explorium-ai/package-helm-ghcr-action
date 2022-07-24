@@ -6,7 +6,8 @@ branding:
 inputs:
   gh-token:
     description: Github token to authenticate to Repo
-    required: true
+    default: "${{ secrets.GITHUB_TOKEN }}"
+    required: false
   gh-repo-owner:
     description: Github Repo Owner to deploy to
     default: "${{ github.repository_owner }}"
@@ -40,10 +41,11 @@ runs:
         GCR_IMAGE: ghcr.io/${{ inputs.gh-repo-owner }}
         HELM_EXPERIMENTAL_OCI: "1"
       run : |
+        set -x
         version=$(pybump get --file ${{ inputs.chart-path }}/Chart.yaml)
         helm package \
         ${{ inputs.chart-path }} \
         --app-version $version \
         --version $version        
-        ls *.tgz | xargs -i echo pushing {} to oci://$GCR_IMAGE && helm push {} oci://$GCR_IMAGE
+        ls *.tgz | xargs -i helm push {} oci://$GCR_IMAGE
       shell: bash
