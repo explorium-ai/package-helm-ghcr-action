@@ -1,4 +1,4 @@
-name: Package Helm GHCR
+name: Package Helm to GHCR
 description: Package a helm chart and deploy to a Github Container Registry repository using OCI
 branding:
   icon: hard-drive
@@ -6,14 +6,14 @@ branding:
 inputs:
   gh-token:
       description: Github token to authenticate to Repo
-      default: eu-west-1
-      required: false
+      required: true
   gh-repo-owner:
       description: Github Repo Owner to deploy to
       required: false      
   chart-path:
     description: the directory path to the specified chart
-    required: true
+    default: "."
+    required: false
 runs:
   using: "composite"
  
