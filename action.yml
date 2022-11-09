@@ -40,10 +40,7 @@ runs:
         HELM_EXPERIMENTAL_OCI: "1"
       run : |
         version=$(pybump get --file ${{ inputs.chart-path }}/Chart.yaml)
-        helm package \
-        ${{ inputs.chart-path }} \
-        --app-version $version \
-        --version $version
+        helm package ${{ inputs.chart-path }} --version $version
         echo pushing $(basename ${{ inputs.chart-path }})-$version.tgz to oci://$GCR_IMAGE
         helm push $(basename ${{ inputs.chart-path }})-$version.tgz oci://$GCR_IMAGE
       shell: bash
